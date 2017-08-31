@@ -1,0 +1,25 @@
+group 'matmatch'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
+}
+
+apply plugin: 'idea'
+
+println System.getProperty("java.home")
+
+repositories {
+    mavenCentral()
+    maven { url "https://repository.jboss.org/nexus/content/repositories/releases" }
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-starter-data-jpa:1.4.3.RELEASE"
+    testCompile("junit:junit")
+}

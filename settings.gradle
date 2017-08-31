@@ -1,0 +1,7 @@
+rootProject.name = 'matmatch'
+include 'search'
+include 'model'
+include 'storage'
+include 'user-api'
+include 'search'
+

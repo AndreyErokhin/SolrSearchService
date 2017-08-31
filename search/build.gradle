@@ -1,0 +1,28 @@
+group 'matmatch'
+version '1.0-SNAPSHOT'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.3.RELEASE")
+    }
+}
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+println System.getProperty("java.home")
+
+dependencies {
+    compile 'org.springframework.data:spring-data-solr:2.1.0.RELEASE'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile project(':model')
+    compile project(':storage')
+}
