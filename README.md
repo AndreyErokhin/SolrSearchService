@@ -33,7 +33,7 @@ You should see the application in the list of the images:
 REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
 matmatch/matmatch-app   1.0-SNAPSHOT        de9706a8259c        2 days ago          742MB
 ```
-5. Start the application on using the same docker network
+5. Start the application using the same docker network
 ```bash
  docker run --name matmatch --net mynet --ip 172.18.0.23 -p 8080:8080 -t matmatch/matmatch-app:1.0-SNAPSHOT
 ```
