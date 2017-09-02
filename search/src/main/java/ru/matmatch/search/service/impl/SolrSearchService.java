@@ -1,29 +1,43 @@
 package ru.matmatch.search.service.impl;
 
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.request.schema.SchemaRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.matmatch.model.User;
 import ru.matmatch.search.Utils;
 import ru.matmatch.search.model.UserIndex;
+import ru.matmatch.search.model.schema.SchemaInitializer;
 import ru.matmatch.search.repository.UserSearchRepository;
 import ru.matmatch.search.service.SearchService;
 import ru.matmatch.storage.service.UserStorageService;
 
+import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class SolrSearchService implements SearchService<User, Long> {
 
-
-    UserSearchRepository repository;
-    UserStorageService storage;
+    @Autowired
+    private SchemaInitializer schemaInitializer;
+    private UserSearchRepository repository;
+    private UserStorageService storage;
 
     @Autowired
     public SolrSearchService(UserSearchRepository repository, UserStorageService storage) {
         this.repository = repository;
         this.storage = storage;
+    }
+
+    @PostConstruct
+    private void createSolrSchema() throws IOException, SolrServerException {
+        schemaInitializer.initSchema();
     }
 
     @Override

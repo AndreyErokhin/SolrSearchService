@@ -21,17 +21,19 @@ import java.util.List;
 public class SolrConfig {
 
 
+    public static final String CORE_NAME = "userIndex";
+
     @Bean
-    public SolrClient solrClient(String core) {
+    public SolrClient solrClient() {
         HttpSolrClient client = new HttpSolrClient("http://172.18.0.22:8983/solr/");
+        //HttpSolrClient client = new HttpSolrClient("http://localhost:8983/solr/");
         SolrClientFactory factory = new HttpSolrClientFactory(client);
-        return factory.getSolrClient(core);
+        return factory.getSolrClient(CORE_NAME);
     }
 
     @Bean()
     public SolrTemplate solrTemplate() throws Exception {
-        String coreName="userIndex";
-        return new SolrTemplate(solrClient(coreName),coreName);
+        return new SolrTemplate(solrClient(), CORE_NAME);
     }
 
 
