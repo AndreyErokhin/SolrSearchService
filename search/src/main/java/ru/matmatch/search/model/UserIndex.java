@@ -8,15 +8,16 @@ import org.springframework.data.solr.core.mapping.SolrDocument;
 @SolrDocument(solrCoreName = "userIndex")
 public class UserIndex {
     @Id
+    @Field
     private Long id;
 
-    @Indexed(type = "text_general")
+    @Field
     private String firstName;
 
-    @Indexed(type = "text_general")
+    @Field
     private String lastName;
 
-    @Indexed(type = "text_general")
+    @Field
     private String ipAddress;
 
 

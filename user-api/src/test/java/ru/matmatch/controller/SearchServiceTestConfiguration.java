@@ -1,15 +1,18 @@
 package ru.matmatch.controller;
 
-import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.solr.client.solrj.SolrClient;
+import org.apache.solr.client.solrj.embedded.EmbeddedSolrServer;
+import org.apache.solr.core.CoreContainer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.solr.core.SolrOperations;
+import org.springframework.data.solr.core.SolrTemplate;
+import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
 import ru.matmatch.MatMatchApp;
-import ru.matmatch.search.service.SearchService;
-import ru.matmatch.storage.service.UserStorageService;
-import ru.matmatch.storage.service.impl.UserStorageStorageService;
+
+import java.nio.file.Paths;
 
 /**
  * Created by erokhin.
@@ -17,11 +20,19 @@ import ru.matmatch.storage.service.impl.UserStorageStorageService;
 @Configuration
 @Import(MatMatchApp.class)
 public class SearchServiceTestConfiguration {
-    //Override the searchService. Othervise the tests will not work without solr instance setup.
+    private static final String CORE_NAME = "userIndex";
+    //Override the client to start embedded instance of solr
     @Bean
     @Primary
-    public SearchService searchService() {
-        return Mockito.mock(SearchService.class);
+    public SolrClient solrClient() throws Exception {
+        CoreContainer coreContainer = CoreContainer.createAndLoad(Paths.get("src/test/resources/ru/matmatch/solr/").toAbsolutePath());
+        EmbeddedSolrServer newServer = new EmbeddedSolrServer(coreContainer, CORE_NAME);
+        return newServer;
     }
 
+    @Bean
+    @Primary
+    public SolrOperations solrTemplate() throws Exception {
+        return new SolrTemplate(solrClient(), CORE_NAME);
     }
+}

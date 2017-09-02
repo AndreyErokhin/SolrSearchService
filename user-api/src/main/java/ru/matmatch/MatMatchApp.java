@@ -21,11 +21,5 @@ public class MatMatchApp {
 
     public static void main(String[] args) throws IOException {
         SpringApplication.run(MatMatchApp.class);
-//        CsvDataLoader loader = new CsvDataLoader();
-//        String classPath=ClassPath.getClassPath();
-//        ClassPathResource res = new ClassPathResource("classpath:example.csv");
-//        String path =res.getPath();
-//        File csv = new File(path);
-//        loader.loadDataFromFile(csv);
     }
 }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<solr>
+    <!--<cores adminPath="/admin/cores">-->
+        <!--<core name="userIndex" instanceDir="userIndex" />-->
+    <!--</cores>-->
+</solr>
