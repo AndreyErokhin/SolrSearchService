@@ -1,5 +1,9 @@
 package ru.matmatch.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@Api(value = "users CRUD", description = "Users CRUD API.")
 public class UserController {
     public static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -29,6 +34,12 @@ public class UserController {
         this.searchService = searchService;
     }
 
+    @ApiOperation(value = "List all users available", response = List.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved users list"),
+            @ApiResponse(code = 204, message = "No users available")
+    }
+    )
     @RequestMapping(value = "/user/", method = RequestMethod.GET)
     public ResponseEntity<List<User>> listAllUsers() {
         List<User> users = storageService.findAllUsers();
@@ -39,6 +50,12 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "Get the user with the paricular ID", response = User.class)
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfully retrieved user"),
+            @ApiResponse(code = 404, message = "User with the specified id isn't found")
+    }
+    )
     @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
     public ResponseEntity<?> getUser(@PathVariable("id") long id) {
         logger.info("Fetching User with id {}", id);
@@ -51,7 +68,12 @@ public class UserController {
         return new ResponseEntity<User>(user, HttpStatus.OK);
     }
 
-
+    @ApiOperation(value = "Add new user to the system")
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Successfully retrieved user"),
+            @ApiResponse(code = 409, message = "User with the specified email is already exists")
+    }
+    )
     @RequestMapping(value = "/user/", method = RequestMethod.POST)
     public ResponseEntity<?> createUser(@RequestBody User user, UriComponentsBuilder ucBuilder) {
         logger.info("Creating User : {}", user);
@@ -69,7 +91,12 @@ public class UserController {
         return new ResponseEntity<String>(headers, HttpStatus.CREATED);
     }
 
-
+    @ApiOperation(value = "Update information for the user with the spesified ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Users successfully updated"),
+            @ApiResponse(code = 404, message = "User with the specified ID is not found")
+    }
+    )
     @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUser(@PathVariable("id") long id, @RequestBody User user) {
         logger.info("Updating User with id {}", id);
@@ -93,6 +120,12 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "Delete user with the spesified ID")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "User successfully deleted"),
+            @ApiResponse(code = 404, message = "User with the specified ID is not found")
+    }
+    )
     @RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@PathVariable("id") long id) {
         logger.info("Fetching & Deleting User with id {}", id);
@@ -108,7 +141,11 @@ public class UserController {
         return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
     }
 
-
+    @ApiOperation(value = "Delete all users")
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "Users successfully deleted")
+    }
+    )
     @RequestMapping(value = "/user/", method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteAllUsers() {
         logger.info("Deleting All Users");

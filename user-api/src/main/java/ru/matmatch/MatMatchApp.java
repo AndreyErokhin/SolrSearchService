@@ -40,7 +40,7 @@ public class MatMatchApp {
                 .groupName("users")
                 .apiInfo(apiInfo())
                 .select()
-                .paths(regex("/.*"))
+                .paths(regex("/api.*"))
                 .build();
 
     }

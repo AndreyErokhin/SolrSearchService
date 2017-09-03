@@ -72,7 +72,7 @@ public class SearchApiTest {
     }
 
     private List<User> searchUsers(String searchText, HttpStatus status) throws Exception {
-        MvcResult result = mockMvc.perform(get("/search?searchText=" + searchText))
+        MvcResult result = mockMvc.perform(get("/api/search?searchText=" + searchText))
                 .andExpect(status().is(status.value()))
                 .andReturn();
         return mapper.readValue(result.getResponse().getContentAsString(), mapper.getTypeFactory().constructCollectionType(List.class, User.class));
