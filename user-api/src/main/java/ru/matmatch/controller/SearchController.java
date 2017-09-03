@@ -18,14 +18,20 @@ public class SearchController {
 
     private static final Logger logger = LoggerFactory.getLogger(SearchController.class);
 
+    private SearchService searchService;
+
     @Autowired
-    SearchService searchService;
+    public SearchController(SearchService searchService) {
+        this.searchService = searchService;
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<?> searchUsers(@RequestParam("searchText") String searchText) {
+        if (searchText == null || searchText.isEmpty()) {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
         logger.info("Searching for Users using search text {}", searchText);
-        List<User> user = searchService.fullTextSearch(searchText);
-        return new ResponseEntity<List<User>>(user, HttpStatus.OK);
+        List<User> users = searchService.fullTextSearch(searchText);
+        return new ResponseEntity<List<User>>(users, users.isEmpty() ? HttpStatus.NO_CONTENT : HttpStatus.OK);
     }
-
 }

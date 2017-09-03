@@ -32,22 +32,23 @@ public class UserSchemaInitializer implements SchemaInitializer {
 
     @Override
     public void initSchema() throws IOException, SolrServerException {
-        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.FIRST_NAME, "text_general", false, true);
-        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.LAST_NAME, "text_general", false, true);
-        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.IPADDRESS, "text_general", false, true);
+        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.FIRST_NAME, "text_general", true, true, false);
+        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.LAST_NAME, "text_general", true, true, false);
+        createSchemaField(USER_SCHEMA_DESCRIPTION.SOLR_CORE, USER_SCHEMA_DESCRIPTION.FIELDS.IPADDRESS, "text_general", true, true, false);
     }
 
-    private SchemaRequest.AddField createAddFielderequest(String fieldName, String fieldType, boolean stored, boolean indexed) {
+    private SchemaRequest.AddField createAddFielderequest(String fieldName, String fieldType, boolean stored, boolean indexed, boolean multiValued) {
         Map<String, Object> fieldAttributes = new LinkedHashMap<>();
         fieldAttributes.put("name", fieldName);
         fieldAttributes.put("type", fieldType);
         fieldAttributes.put("stored", stored);
         fieldAttributes.put("indexed", indexed);
+        fieldAttributes.put("multiValued", multiValued);
         return new SchemaRequest.AddField(fieldAttributes);
     }
 
-    private void createSchemaField(String solrCore, String fieldName, String fieldType, boolean stored, boolean indexed) throws SolrServerException, IOException {
-        SchemaRequest.AddField addFieldRequest = createAddFielderequest(fieldName, fieldType, stored, indexed);
+    private void createSchemaField(String solrCore, String fieldName, String fieldType, boolean stored, boolean indexed, boolean multiValued) throws SolrServerException, IOException {
+        SchemaRequest.AddField addFieldRequest = createAddFielderequest(fieldName, fieldType, stored, indexed, multiValued);
         SchemaResponse.UpdateResponse response=addFieldRequest.process(client/*, solrCore*/);
         client.commit();
         response.getResponse();

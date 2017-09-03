@@ -25,8 +25,8 @@ public class SolrConfig {
 
     @Bean
     public SolrClient solrClient() {
-        HttpSolrClient client = new HttpSolrClient("http://172.18.0.22:8983/solr/");
-        //HttpSolrClient client = new HttpSolrClient("http://localhost:8983/solr/");
+        //HttpSolrClient client = new HttpSolrClient("http://172.18.0.22:8983/solr/");
+        HttpSolrClient client = new HttpSolrClient("http://localhost:8983/solr/");
         SolrClientFactory factory = new HttpSolrClientFactory(client);
         return factory.getSolrClient(CORE_NAME);
     }
@@ -35,7 +35,4 @@ public class SolrConfig {
     public SolrTemplate solrTemplate() throws Exception {
         return new SolrTemplate(solrClient(), CORE_NAME);
     }
-
-
-
 }

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <schema name="example" version="1.6">
-    <field name="id" type="string" indexed="true" stored="true" required="true" multiValued="false" />
-    <field name="firstName" type="string" indexed="true" stored="false" required="true" multiValued="false" />
-    <field name="lastName" type="string" indexed="true" stored="false" required="true" multiValued="false" />
-    <field name="ipAddress" type="string" indexed="true" stored="false" required="true" multiValued="false" />
+    <field name="id" type="long" indexed="true" stored="true" required="true" multiValued="false" />
+    <field name="firstName" type="string_ci" indexed="true" stored="false" required="true" multiValued="false" />
+    <field name="lastName" type="string_ci" indexed="true" stored="false" required="true" multiValued="false" />
+    <field name="ipAddress" type="string_ci" indexed="true" stored="false" required="true" multiValued="false" />
 
     <field name="_version_" type="long" indexed="true" stored="true"/>
     <field name="_root_" type="string" indexed="true" stored="false"/>
 
     <uniqueKey>id</uniqueKey>
 
-    <fieldType name="string" class="solr.StrField" sortMissingLast="true" />
+    <fieldType name="string" class="solr.TextField" sortMissingLast="true" />
+    <fieldType name="string_ci" class="solr.TextField"
+               sortMissingLast="true" omitNorms="true">
+        <analyzer>
+            <tokenizer class="solr.KeywordTokenizerFactory"/>
+            <filter class="solr.LowerCaseFilterFactory" />
+        </analyzer>
+    </fieldType>
 
     <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
 
