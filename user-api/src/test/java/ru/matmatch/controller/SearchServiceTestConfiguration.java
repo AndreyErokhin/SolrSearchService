@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.solr.core.SolrOperations;
 import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.server.support.EmbeddedSolrServerFactory;
 import ru.matmatch.MatMatchApp;
 
 import java.nio.file.Paths;
