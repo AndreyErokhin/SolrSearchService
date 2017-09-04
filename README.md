@@ -27,7 +27,7 @@ Checkout or download the code and build an application
 ```
 On windows use
 ```bash
-./gradlew.bat build buildDocker
+gradlew.bat build buildDocker
 ```
 
 Make sure that you have an Application image on docker
